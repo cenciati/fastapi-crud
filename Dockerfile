@@ -9,6 +9,7 @@ COPY ./requirements.txt .
 RUN pip install --no-cache --upgrade -r requirements.txt
 
 COPY ./.env .
+COPY ./pyproject.toml .
 
 EXPOSE 8000
 
