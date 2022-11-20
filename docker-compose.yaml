@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data 
+    networks:
+      - postgres-pgmyadmin
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "blog"
+    restart: on-failure
+
+  pgmyadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgmyadmin
+    ports:
+      - 80:80
+    networks:
+      - postgres-pgmyadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_USER: "admin"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    depends_on:
+      - db
+    restart: on-failure
+
+  api:
+    build: .
+    container_name: api
+    ports:
+      - 8000:8000
+    volumes:
+      - ./src:/service/src
+      - ./.env:/service/.env
+    networks:
+      - postgres-pgmyadmin
+    depends_on:
+      - db
+    restart: on-failure
+
+volumes:
+  db-data:
+    driver: local
+
+networks: 
+  postgres-pgmyadmin:
+    driver: bridge
