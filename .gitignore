@@ -1,0 +1,43 @@
+# cache
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints
+*.pyc
+.coverage
+
+# byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# visual studio code files
+.vs/
+.vscode/
+
+# data
+*.csv
+*.parquet
+*.feather
+*.crc
+*.snappy
+*.zip
+*.gzip
+*.tar
+data/
+
+# binaries
+*.bin
+*.pkl
+*.pickle
+*.joblib
+
+# dotenv
+.env
+
+# virtual environments
+.venv/
+.venv-*/
+venv/
+venv-*/
+ENV/
