@@ -1,0 +1,39 @@
+[project]
+name = "fastapi-crud"
+version = "1.0.0"
+description = """CRUD application in Python using FastAPI
+                 and software engineering best practices."""
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.black]
+line-length = 79
+
+[tool.flake8]
+max-complexity = 10
+max-line-length = 79
+exclude = ".venv"
+extend-ignore = [
+    "W503", # Line break occurred before a binary operator
+]
+per-file-ignores = "__init__.py: F401"
+
+[tool.isort]
+atomic = true
+profile = "black"
+line_length = 79
+skip_gitignore = true
+
+[tool.pytest.ini_options]
+addopts = """
+    -v -s
+    --cov
+    --cov-report html:reports/coverage
+    --cov-report term-missing
+    --cov-fail-under 90
+    -W ignore::DeprecationWarning
+"""
+testpaths = ["src/tests"]
+
+[tool.coverage.run]
+source = ["src/tests"]
