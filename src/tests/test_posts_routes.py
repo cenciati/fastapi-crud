@@ -4,7 +4,7 @@ from json import dumps
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from data.schemas import Post
+from src.data.schemas import Post
 from src.routes.posts_routes import posts_routes
 
 client = TestClient(posts_routes)
