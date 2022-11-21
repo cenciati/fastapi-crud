@@ -1,9 +1,10 @@
+from datetime import datetime
 from json import dumps
 
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from src.models.post import Post
+from data.schemas import Post
 from src.routes.posts_routes import posts_routes
 
 client = TestClient(posts_routes)
@@ -13,6 +14,7 @@ post: Post = Post(
     author="Mark",
     title="How to use Unity.",
     content="In this tutorial...",
+    created_at=datetime.now(),
 )
 
 
