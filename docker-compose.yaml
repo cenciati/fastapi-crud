@@ -9,7 +9,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data 
     networks:
-      - postgres-pgmyadmin
+      - db-network
     environment:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "admin"
@@ -22,7 +22,7 @@ services:
     ports:
       - 80:80
     networks:
-      - postgres-pgmyadmin
+      - db-network
     environment:
       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
       PGADMIN_DEFAULT_USER: "admin"
@@ -40,7 +40,7 @@ services:
       - ./src:/service/src
       - ./.env:/service/.env
     networks:
-      - postgres-pgmyadmin
+      - db-network
     depends_on:
       - db
     restart: on-failure
@@ -50,5 +50,5 @@ volumes:
     driver: local
 
 networks: 
-  postgres-pgmyadmin:
+  db-network:
     driver: bridge
