@@ -1,23 +1,27 @@
-from typing import Union
+from os import getenv
 
-import psycopg2
-from psycopg2.extras import RealDictCursor
+from dotenv import find_dotenv, load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+load_dotenv(find_dotenv())
+DB_HOST: str = getenv("DB_HOST")
+DB_DATABASE: str = getenv("DB_DATABASE")
+DB_USER: str = getenv("DB_USER")
+DB_PASSWORD: str = getenv("DB_PASSWORD")
+
+SQLALCHEMY_DATABASE_URL: str = (
+    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}"
+)
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
 
-def create_database_connection(
-    host: str, database: str, user: str, password: str
-) -> Union[psycopg2.extensions.connection, psycopg2.extensions.cursor]:
+def get_db() -> None:
+    db = SessionLocal()
     try:
-        connection = psycopg2.connect(
-            host=host,
-            database=database,
-            user=user,
-            password=password,
-            cursor_factory=RealDictCursor,
-        )
-        cursor = connection.cursor()
-        print("Database connection succeed!")
-
-        return connection, cursor
-    except Exception as error:
-        raise error
+        yield db
+    finally:
+        db.close()
