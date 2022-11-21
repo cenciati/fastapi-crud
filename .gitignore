@@ -24,7 +24,6 @@ __pycache__/
 *.zip
 *.gzip
 *.tar
-data/
 
 # binaries
 *.bin
