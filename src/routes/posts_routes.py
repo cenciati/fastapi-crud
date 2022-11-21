@@ -61,7 +61,10 @@ async def create_post(
     post: schemas.Post, db: Session = Depends(get_db)
 ) -> dict:
     if db.query(models.Posts).filter(models.Posts.id == post.id).first():
-        return {"msg": "post already exists"}
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Post with id {post.id} already exists.",
+        )
     post = models.Posts(**post.dict())
     db.add(post)
     db.commit()
