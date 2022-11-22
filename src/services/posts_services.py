@@ -1,5 +1,7 @@
 from typing import Optional
+
 from fastapi import HTTPException, status
+
 from src.data import schemas
 
 
