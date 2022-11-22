@@ -2,11 +2,10 @@ from fastapi import status
 from fastapi.responses import Response
 from fastapi.testclient import TestClient
 
-from src.routes.root_routes import root_routes
+from src.core.http_server import app
 
-client = TestClient(root_routes)
-url: str = "https://localhost:8000/api/v1/"
-response: Response = client.get(f"{url}")
+client = TestClient(app)
+response: Response = client.get("/")
 
 
 def test_if_status_code_is_equal_to_200_when_make_get_request() -> None:
