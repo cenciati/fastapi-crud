@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
-from src.routes.posts_routes import posts_routes
-from src.routes.root_routes import root_routes
+from src.core.config import settings
+from src.routes.posts_routes import posts_router
+from src.routes.root_routes import root_router
 
 app = FastAPI(
     title="Blog",
@@ -10,5 +11,5 @@ app = FastAPI(
     license_info={"name": "MIT"},
 )
 
-app.include_router(root_routes)
-app.include_router(posts_routes)
+app.include_router(root_router)
+app.include_router(posts_router, prefix=settings.API_V1_STR)
