@@ -7,8 +7,8 @@ from src.data import schemas
 from src.infra import models
 from src.infra.database import engine, get_db
 from src.services.posts_services import (
-    check_if_posts_exist,
     check_if_post_exists,
+    check_if_posts_exist,
 )
 
 posts_router = APIRouter()
