@@ -1,5 +1,3 @@
-from typing import Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -8,27 +6,13 @@ from src.core.config import settings
 from src.data import schemas
 from src.infra import models
 from src.infra.database import engine, get_db
+from src.services.posts_services import (
+    check_if_posts_exist,
+    check_if_post_exists,
+)
 
 posts_router = APIRouter()
 models.Base.metadata.create_all(bind=engine)
-
-
-def check_if_post_exists(
-    id: Optional[int] = None, post: Optional[schemas.Post] = None
-) -> None:
-    # it has id but there are no data
-    if id and not post:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Could not find post with id {id}.",
-        )
-    # it does not have id and there are no data
-    if not id and not post:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Could not find any post.",
-        )
-    return None
 
 
 @posts_router.get(
@@ -36,7 +20,7 @@ def check_if_post_exists(
 )
 async def get_all_posts(db: Session = Depends(get_db)) -> dict:
     posts: list = db.query(models.Posts).all()
-    check_if_post_exists(post=posts)
+    check_if_posts_exist(posts=posts)
     return {
         "data": jsonable_encoder(posts),
         "_links": {
