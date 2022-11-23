@@ -36,13 +36,6 @@ jobs:
       with:
         max-line-length: "79"
         exclude: "__init__.py"
-        ignore: "W503"
-
-    - name: autoflake
-      uses: py-actions/flake8@v2
-      with:
-        max-line-length: "79"
-        exclude: "__init__.py"
         ignore: |
           "W503"
           "E501"
