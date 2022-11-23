@@ -17,7 +17,6 @@ lint:
 	${PYTHON} -m black ${FILES_PATH}
 	${PYTHON} -m flake8 ${FILES_PATH}
 	${PYTHON} -m autoflake ${FILES_PATH}
-	${PYTHON} -m black ${FILES_PATH}
 
 .ONESHELL:
 .PHONY: setup
