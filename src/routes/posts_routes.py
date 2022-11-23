@@ -16,12 +16,10 @@ from src.services.posts_services import (
     check_if_posts_exist,
 )
 
-posts_router = APIRouter()  # prefix /posts
+posts_router = APIRouter(prefix="/posts")
 
 
-@posts_router.get(
-    "/posts", status_code=status.HTTP_200_OK, response_model=dict
-)
+@posts_router.get("/", status_code=status.HTTP_200_OK, response_model=dict)
 async def get_all_posts() -> dict:
     posts: list = fetch_all_posts()
     check_if_posts_exist(posts)
@@ -34,9 +32,7 @@ async def get_all_posts() -> dict:
     }
 
 
-@posts_router.get(
-    "/posts/{id}", status_code=status.HTTP_200_OK, response_model=dict
-)
+@posts_router.get("/{id}", status_code=status.HTTP_200_OK, response_model=dict)
 async def get_one_post(id: int) -> dict:
     post: list = fetch_post_by_id(id)
     check_if_post_exists(post)
@@ -50,7 +46,7 @@ async def get_one_post(id: int) -> dict:
 
 
 @posts_router.post(
-    "/posts", status_code=status.HTTP_201_CREATED, response_model=dict
+    "/", status_code=status.HTTP_201_CREATED, response_model=dict
 )
 async def create_post(new_post: schemas.Post) -> dict:
     post: list = fetch_post_by_id(new_post.id)
@@ -66,7 +62,7 @@ async def create_post(new_post: schemas.Post) -> dict:
 
 
 @posts_router.delete(
-    "/posts/{id}",
+    "/{id}",
     status_code=status.HTTP_204_NO_CONTENT,
     response_model=None,
 )
@@ -77,9 +73,7 @@ async def delete_post(id: int) -> None:
     return None
 
 
-@posts_router.put(
-    "/posts/{id}", status_code=status.HTTP_200_OK, response_model=dict
-)
+@posts_router.put("/{id}", status_code=status.HTTP_200_OK, response_model=dict)
 async def update_post(id: int, updated_post: schemas.Post) -> dict:
     post: list = fetch_post_by_id(id)
     check_if_post_exists(post)
@@ -91,13 +85,3 @@ async def update_post(id: int, updated_post: schemas.Post) -> dict:
             "root": {"href": f"{settings.URL}/"},
         },
     }
-
-
-"""
-GET 200
-/posts?limit=10
-
-GET 200
-serach by keyword
-/posts?contains=mlops
-"""
