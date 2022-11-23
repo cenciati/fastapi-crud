@@ -3,11 +3,12 @@ from fastapi.testclient import TestClient
 
 from src.core.config import settings
 from src.core.http_server import app
+from src.data import schemas
 from src.data.schemas import Post
 
 client = TestClient(app)
 url: str = f"{settings.URL}/posts"
-post: Post = Post(
+post: schemas.Post = Post(
     id=99,
     author="Mark",
     title="How to use Unity.",
@@ -35,7 +36,7 @@ def test_if_status_code_is_equal_200_when_get_one_post() -> None:
 
 # PUT /api/v1/posts/{id}
 def test_if_status_code_is_equal_200_when_update_a_post() -> None:
-    updated_post: Post = Post(
+    updated_post: schemas.Post = Post(
         id=post.id,
         author="Edited author",
         title="Edited title",
