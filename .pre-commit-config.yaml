@@ -30,9 +30,12 @@ repos:
     -   id: pytest
         name: test code
         language: system
-        entry: bash -c ".venv/bin/python -m pytest -v -s
-               --cov --cov-report html:reports/coverage
-               --cov-report term-missing --cov-fail-under 90
+        entry: bash -c ".venv/bin/python -m pytest
+               -v -s
+               --cov
+               --cov-report html:reports/coverage
+               --cov-report term-missing
+               --cov-fail-under 80
                -W ignore::DeprecationWarning
                src/tests"
         always_run: true
