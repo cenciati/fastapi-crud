@@ -43,7 +43,9 @@ jobs:
       with:
         max-line-length: "79"
         exclude: "__init__.py"
-        ignore: "W503"
+        ignore: |
+          "W503"
+          "E501"
 
     - name: Test with pytest
       run: |
