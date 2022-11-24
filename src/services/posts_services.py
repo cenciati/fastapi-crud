@@ -23,7 +23,7 @@ def check_if_post_exists(post: List[schemas.Post]) -> None:
     return None
 
 
-def check_if_post_is_duplicate(post: List[schemas.Post]) -> None:
+def check_duplicate_post(post: List[schemas.Post]) -> None:
     if post:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
