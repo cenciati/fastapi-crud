@@ -3,23 +3,26 @@ PYTHON := python3
 PIP := pip3
 FILES_PATH := src/*/*.py
 
-.PHONY: help
+.PHONY: help lint test setup clean
+.ONESHELL: setup clean
+
 help:
 	@echo "~~~~~~~~~~~~~~~~~HELP~~~~~~~~~~~~~~~~~~"
-	@echo "lint : lint the code."
+	@echo "lint : run linter and formatters."
+	@echo "test: run tests."
 	@echo "setup : prepares the enviornment."
 	@echo "clean : cleans the environment."
 	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-.PHONY: lint
 lint:
 	${PYTHON} -m isort ${FILES_PATH}
 	${PYTHON} -m black ${FILES_PATH}
 	${PYTHON} -m flake8 ${FILES_PATH}
 	${PYTHON} -m autoflake ${FILES_PATH}
 
-.ONESHELL:
-.PHONY: setup
+test:
+	${PYTHON} -m pytest src/tests
+
 setup:
 	${PYTHON} -m venv .venv
 	source .venv/bin/activate
@@ -27,8 +30,6 @@ setup:
 	pre-commit install
 	docker-compose up -d
 
-.ONESHELL:
-.PHONY: clean
 clean: setup
 	docker-compose down
 	pre-commit clean
