@@ -12,5 +12,5 @@ def test_if_status_code_is_equal_to_200_when_make_get_request() -> None:
     assert response.status_code == status.HTTP_200_OK
 
 
-def test_response_data() -> None:
+def test_response_welcome_message() -> None:
     assert response.json()["data"] == ["Welcome to my personal blog!"]
