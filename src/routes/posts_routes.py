@@ -1,3 +1,5 @@
+from typing import Dict, Union
+
 from fastapi import APIRouter, status
 from fastapi.encoders import jsonable_encoder
 
@@ -12,15 +14,15 @@ from src.data.posts_data import (
 )
 from src.services.posts_services import (
     check_if_post_exists,
-    check_if_post_is_duplicate,
     check_if_posts_exist,
+    check_duplicate_post,
 )
 
 posts_router = APIRouter(prefix="/posts")
 
 
 @posts_router.get("/", status_code=status.HTTP_200_OK, response_model=dict)
-async def get_all_posts() -> dict:
+async def get_all_posts() -> Dict[str, Union[list, dict]]:
     posts: list = fetch_all_posts()
     check_if_posts_exist(posts)
     return {
@@ -33,7 +35,7 @@ async def get_all_posts() -> dict:
 
 
 @posts_router.get("/{id}", status_code=status.HTTP_200_OK, response_model=dict)
-async def get_one_post(id: int) -> dict:
+async def get_one_post_by_id(id: int) -> Dict[str, Union[list, dict]]:
     post: list = fetch_post_by_id(id)
     check_if_post_exists(post)
     return {
@@ -48,9 +50,9 @@ async def get_one_post(id: int) -> dict:
 @posts_router.post(
     "/", status_code=status.HTTP_201_CREATED, response_model=dict
 )
-async def create_post(new_post: schemas.Post) -> dict:
+async def create_post(new_post: schemas.Post) -> Dict[str, Union[list, dict]]:
     post: list = fetch_post_by_id(new_post.id)
-    check_if_post_is_duplicate(post)
+    check_duplicate_post(post)
     insert_post(new_post)
     return {
         "data": jsonable_encoder([new_post]),
@@ -74,7 +76,9 @@ async def delete_post(id: int) -> None:
 
 
 @posts_router.put("/{id}", status_code=status.HTTP_200_OK, response_model=dict)
-async def update_post(id: int, updated_post: schemas.Post) -> dict:
+async def update_post(
+    id: int, updated_post: schemas.Post
+) -> Dict[str, Union[list, dict]]:
     post: list = fetch_post_by_id(id)
     check_if_post_exists(post)
     update_post_by_id(updated_post)
